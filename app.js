@@ -1,6 +1,11 @@
 import React from "react";
-import { createRoot } from 'react-dom/client';
+import ReactDom from "react-dom/client";
+import Example from "./src/components/Example";
+import MyTable from "./src/components/MyTable";
 
-const root = createRoot(document.getElementById("root"));
+const AppLayout = () => {
+    return <Example/>;
+}
 
-root.render(<>Test</>)
+const root = ReactDom.createRoot(document.getElementById("root"));
+root.render(<AppLayout/>)
