@@ -1,10 +1,9 @@
-import { Box, Drawer, Checkbox, FormControlLabel, Button, FormGroup} from '@mui/material';
+import { Box, Drawer, FormControlLabel, Button, FormGroup} from '@mui/material';
 import Switch from '@mui/material/Switch';
 import { useState } from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-const ShowHide = ({ open, table }) => {
-    const [show, setShow] = useState(true);
+const SideBarColumnSelector = ({ open, table, setShowColumnSideBar}) => {
     const columnsInitialState = {
         id: true,
         name: true,
@@ -15,11 +14,11 @@ const ShowHide = ({ open, table }) => {
         price: true,
         sale_price: true
     }
-    const allItems =  ['id', 'name', 'category', 'subcategory', 'createdAt', 'updatedAt', 'price', 'sale_price'];
+    const allItems = ['id', 'name', 'category', 'subcategory', 'createdAt', 'updatedAt', 'price', 'sale_price'];
     const [selectedGroups, setSelectedGroups] = useState(columnsInitialState);
 
     function handleOnClick() {
-        setShow(false);
+        setShowColumnSideBar();
     }
 
     function showAll(){
@@ -64,11 +63,11 @@ const ShowHide = ({ open, table }) => {
         }));
     };
     return (
-      <Drawer anchor="right" open={show}>
+      <Drawer anchor="right" open={open}>
         <Box sx={{width: '25vw'}} p={2}>
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', alignContent:'center'}}>
                 <h2>Show/Hide Columns</h2>
-                <CancelIcon onClick={handleOnClick}/>
+                <CancelIcon onClick={handleOnClick} />
             </Box>
             <Box sx={{width: 'auto', height: 'auto'}}>
                 <FormGroup sx={{width:'auto'}}>
@@ -90,10 +89,9 @@ const ShowHide = ({ open, table }) => {
                     Apply
                 </Button>
             </Box>
-          
         </Box>
       </Drawer>
     );
   };
 
-  export default ShowHide;
+  export default SideBarColumnSelector;

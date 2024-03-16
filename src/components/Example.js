@@ -1,15 +1,22 @@
 import {
   MaterialReactTable, useMaterialReactTable,
-  createMRTColumnHelper, MRT_TablePagination, MaterialReactTable
+  createMRTColumnHelper
 } from 'material-react-table';
-import { useMemo } from 'react';
+import { Box, IconButton } from '@mui/material';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useMemo, useState } from 'react';
 import { DATA } from '../utils/constants';
 import moment from 'moment';
-import ShowHide from './ShowHide';
+import SideBarColumnSelector from './SideBarColumnSelector';
+import SideBarSorting from './SideBarSorting';
 
 const Example = () => {
+  console.log("example rendered");
   const data = DATA;
   const columnHelper = createMRTColumnHelper();
+  const [showColumnSideBar, setShowColumnSideBar] = useState(false);
+  const [showSortSideBar, setShowSortSideBar] = useState(false);
   const columns = useMemo(() => [
     {
       accessorKey: 'id',
@@ -61,19 +68,40 @@ const Example = () => {
     }
   ], [],);
 
-
   const table = useMaterialReactTable({
     columns,
     data,
     enableColumnActions:false,
+    renderToolbarInternalActions: ({ table }) => (
+      <Box>
+        <IconButton
+          onClick={() => {
+            setShowSortSideBar(true);
+          }}>
+          <SwapVertIcon />
+        </IconButton>
+        <IconButton
+          onClick={() => {
+            setShowColumnSideBar(true);
+          }}>
+          <VisibilityIcon />
+        </IconButton>
+      </Box>
+    ),
   });
 
   return <div style={{ height: 400, width: '100%' }}>
       <MaterialReactTable table={table} />
-      <ShowHide
-        open={true}
-        // onClose={() => setShowColumnDrawer(false)}
+      <SideBarColumnSelector
+        open={showColumnSideBar}
         table={table}
+        setShowColumnSideBar={() => setShowColumnSideBar(false)}
+      />
+      <SideBarSorting
+        open={showSortSideBar}
+        table={table}
+        columns={columns}
+        setShowSortSideBar={() => setShowSortSideBar(false)}
       />
   </div>
 }
