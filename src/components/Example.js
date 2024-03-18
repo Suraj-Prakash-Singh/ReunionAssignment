@@ -5,18 +5,23 @@ import {
 import { Box, IconButton } from '@mui/material';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import { useMemo, useState } from 'react';
 import { DATA } from '../utils/constants';
 import moment from 'moment';
 import SideBarColumnSelector from './SideBarColumnSelector';
 import SideBarSorting from './SideBarSorting';
+import SideBarFilter from './SideBarFilter';
 
 const Example = () => {
-  console.log("example rendered");
+
   const data = DATA;
   const columnHelper = createMRTColumnHelper();
+
   const [showColumnSideBar, setShowColumnSideBar] = useState(false);
   const [showSortSideBar, setShowSortSideBar] = useState(false);
+  const [showFilterSideBar, setShowFilterSideBar] = useState(false);
+
   const columns = useMemo(() => [
     {
       accessorKey: 'id',
@@ -76,6 +81,12 @@ const Example = () => {
       <Box>
         <IconButton
           onClick={() => {
+            setShowFilterSideBar(true);
+          }}>
+          <FilterListIcon />
+        </IconButton>
+        <IconButton
+          onClick={() => {
             setShowSortSideBar(true);
           }}>
           <SwapVertIcon />
@@ -102,6 +113,12 @@ const Example = () => {
         table={table}
         columns={columns}
         setShowSortSideBar={() => setShowSortSideBar(false)}
+      />
+      <SideBarFilter
+        open={showFilterSideBar}
+        table={table}
+        columns={columns}
+        setShowFilterSideBar={() => setShowFilterSideBar(false)}
       />
   </div>
 }
